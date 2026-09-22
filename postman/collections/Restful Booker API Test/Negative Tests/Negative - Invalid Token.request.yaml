@@ -1,0 +1,40 @@
+$kind: http-request
+url: https://restful-booker.herokuapp.com/booking/{{bookingid}}
+method: PUT
+headers:
+  Accept: application/json
+  Cookie: token=invalidtoken123
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstname\": \"SeonGook\",\r
+
+    \    \"lastname\": \"Yoon\",\r
+
+    \    \"totalprice\": 1500000,\r
+
+    \    \"depositpaid\": true,\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"2026-10-01\",\r
+
+    \        \"checkout\": \"2026-10-05\"\r
+
+    \    },\r
+
+    \    \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Invalid token returns 403\", function () {\r
+
+      \    pm.response.to.have.status(403);\r
+
+      });"
+    language: text/javascript
+order: 4503569286430137

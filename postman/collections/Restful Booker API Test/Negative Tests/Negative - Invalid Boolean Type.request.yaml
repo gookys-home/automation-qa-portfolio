@@ -1,0 +1,48 @@
+$kind: http-request
+description: ""
+url: https://restful-booker.herokuapp.com/booking
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstname\": \"SeonGook\",\r
+
+    \    \"lastname\": \"Yoon\",\r
+
+    \    \"totalprice\": 150000,\r
+
+    \    \"depositpaid\": \"yes\",\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"2026-10-10\",\r
+
+    \        \"checkout\": \"2026-10-12\"\r
+
+    \    },\r
+
+    \    \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Invalid data type should be rejected\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([400, 422]);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Invalid boolean string should not be accepted\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(jsonData.booking.depositpaid).to.not.eql(true);\r
+
+      });"
+    language: text/javascript
+order: 4499744787086654

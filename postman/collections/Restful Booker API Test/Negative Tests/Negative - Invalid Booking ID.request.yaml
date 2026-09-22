@@ -1,0 +1,13 @@
+$kind: http-request
+description: ""
+url: https://restful-booker.herokuapp.com/booking/999999999
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Invalid booking ID returns 404\", function () {\r
+
+      \    pm.response.to.have.status(404);\r
+
+      });"
+    language: text/javascript
+order: 4503189096359048

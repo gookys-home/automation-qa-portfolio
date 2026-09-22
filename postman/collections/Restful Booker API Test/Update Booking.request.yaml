@@ -1,0 +1,78 @@
+$kind: http-request
+url: https://restful-booker.herokuapp.com/booking/{{bookingid}}
+method: PUT
+headers:
+  Accept: application/json
+  Cookie: token={{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstname\": \"SeonGook\",\r
+
+    \    \"lastname\": \"Yoon\",\r
+
+    \    \"totalprice\": 1500000,\r
+
+    \    \"depositpaid\": true,\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"2026-10-01\",\r
+
+    \        \"checkout\": \"2026-10-05\"\r
+
+    \    },\r
+
+    \    \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      const jsonData = pm.response.json();\r
+
+      \r
+
+      pm.test(\"Firstname is updated correctly\", function () {\r
+
+      \    pm.expect(jsonData.firstname).to.eql(\"SeonGook\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Lastname is updated correctly\", function () {\r
+
+      \    pm.expect(jsonData.lastname).to.eql(\"Yoon\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Total price is updated correctly\", function () {\r
+
+      \    pm.expect(jsonData.totalprice).to.eql(1500000);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Booking dates are updated correctly\", function () {\r
+
+      \    pm.expect(jsonData.bookingdates.checkin).to.eql(\"2026-10-01\");\r
+
+      \    pm.expect(jsonData.bookingdates.checkout).to.eql(\"2026-10-05\");\r
+
+      });"
+    language: text/javascript
+order: 4000

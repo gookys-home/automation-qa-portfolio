@@ -1,0 +1,52 @@
+$kind: http-request
+description: ""
+url: https://restful-booker.herokuapp.com/booking
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstname\": \"SeonGook\",\r
+
+    \    \"lastname\": \"Yoon\",\r
+
+    \    \"totalprice\": 150000,\r
+
+    \    \"depositpaid\": true,\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"invalid date\",\r
+
+    \        \"checkout\": \"2026-10-12\"\r
+
+    \    },\r
+
+    \    \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Invalid date format should be rejected\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([400, 422]);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Checkin date should remain valid\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(jsonData.booking.bookingdates.checkin).to.match(\r
+
+      \        /^\\d{4}-\\d{2}-\\d{2}$/\r
+
+      \    );\r
+
+      });"
+    language: text/javascript
+order: 4495886094676561

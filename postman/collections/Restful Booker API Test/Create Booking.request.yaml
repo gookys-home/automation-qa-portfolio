@@ -1,0 +1,48 @@
+$kind: http-request
+description: ""
+url: https://restful-booker.herokuapp.com/booking
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstname\": \"SeonGook\",\r
+
+    \    \"lastname\": \"Yoon\",\r
+
+    \    \"totalprice\": 150000,\r
+
+    \    \"depositpaid\": true,\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"2026-10-10\",\r
+
+    \        \"checkout\": \"2026-10-12\"\r
+
+    \    },\r
+
+    \    \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Booking is created successfully\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      const jsonData = pm.response.json();\r
+
+      \r
+
+      pm.collectionVariables.set(\"bookingid\", jsonData.bookingid);\r
+
+      \r
+
+      console.log(\"Saved booking ID:\", jsonData.bookingid);"
+    language: text/javascript
+order: 1000

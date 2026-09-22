@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment / secrets
+.env
+
+# Node / Newman
+node_modules/
+
+# Logs
+*.log
+
+# Windows
+Thumbs.db
