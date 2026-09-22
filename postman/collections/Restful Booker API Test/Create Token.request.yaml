@@ -36,4 +36,4 @@ scripts:
 
       pm.collectionVariables.set(\"token\", jsonData.token);"
     language: text/javascript
-order: 7000
+order: 2790
